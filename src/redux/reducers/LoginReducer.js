@@ -6,17 +6,16 @@ const initialState = {
 };
 const isLogged = (state = initialState, action) => {
   switch (action.type) {
-    case "SIGN_UP":
+    case "LOG_IN":
       return {
         ...state,
         user: action.payload,
         isLogin: true,
       };
-    case "SIGN_OUT":
+    case "UPDATE_USER":
       return {
         ...state,
-        user: {},
-        isLogin: false,
+        user: action.payload,
       };
     default:
       return state;

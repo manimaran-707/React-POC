@@ -1,34 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Avatar, Button, CssBaseline, Typography, Container,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { useSelector, useDispatch } from "react-redux";
-import { SignUp } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { LoginStyle } from "./styles/materialStyles";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import {fetchUsers} from "../../redux/actions";
 
 const LoginFrom = () => {
-  const [logInFrom, setLoIinFrom] = useState({
-    UserMailId: "",
-    UserPassword: "",
+  const [logInFrom, setLogInFrom] = useState({
+    email: "",
+    password: "Admin",
+    userPassword: ""
   });
   const classes = LoginStyle();
   const dispatch = useDispatch();
-  const isLogged = useSelector((state) => state.Logged.isLogin);
-
-  const FormHandler = (e) => {
-    e.preventDefault();
-    dispatch(SignUp(logInFrom.UserMailId, logInFrom.UserPassword));
-  };
   const history = useHistory();
-  useEffect(() => {
-    if (isLogged === true) {
-      history.push("/profile");
-    } else {
-      history.push("/");
-    }
-  }, [isLogged]);
+
+  const FormHandler = async (e) => {
+    e.preventDefault();
+    console.log(logInFrom);
+    await dispatch(fetchUsers(logInFrom));
+    history.push("profile");
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -50,8 +45,8 @@ const LoginFrom = () => {
             label="Enter you mail id"
             name="email"
             autoComplete="email"
-            value={logInFrom.UserMailId}
-            onChange={(e) => setLoIinFrom({ ...logInFrom, UserMailId: e.target.value })}
+            value={logInFrom.email}
+            onChange={(e) => setLogInFrom({ ...logInFrom, email: e.target.value })}
             validators={["required", "isEmail"]}
             errorMessages={["this field is required", "email is not valid"]}
           />
@@ -62,9 +57,9 @@ const LoginFrom = () => {
             name="password"
             label="Password"
             type="password"
+            value={logInFrom.userPassword}
+            onChange={(e) => setLogInFrom({ ...logInFrom, userPassword: e.target.value })}
             autoComplete="current-password"
-            value={logInFrom.UserPassword}
-            onChange={(e) => setLoIinFrom({ ...logInFrom, UserPassword: e.target.value }) }
             validators={["required"]}
             errorMessages={["this field is required"]}
           />
