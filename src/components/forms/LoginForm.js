@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  Typography,
-  Container,
+import { Avatar, Button, CssBaseline, Typography, Container,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useSelector, useDispatch } from "react-redux";
-import { SignUp } from "../../../redux/actions";
+import { SignUp } from "../../redux/actions";
 import { useHistory } from "react-router-dom";
-import { LoginStyle } from "../styles/materialStyles";
+import { LoginStyle } from "./styles/materialStyles";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 const LoginFrom = () => {
   const [logInFrom, setLoIinFrom] = useState({
@@ -35,7 +30,6 @@ const LoginFrom = () => {
     }
   }, [isLogged]);
 
-  // Render Method
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -46,34 +40,33 @@ const LoginFrom = () => {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <form className={classes.form} onSubmit={(e) => FormHandler(e)}>
-          <TextField
+        <ValidatorForm
+          className={classes.form}
+          onSubmit={(e) => FormHandler(e)}
+        >
+          <TextValidator
             variant="outlined"
-            margin="normal"
-            required
             fullWidth
             label="Enter you mail id"
             name="email"
             autoComplete="email"
             value={logInFrom.UserMailId}
-            onChange={(e) =>
-              setLoIinFrom({ ...logInFrom, UserMailId: e.target.value })
-            }
+            onChange={(e) => setLoIinFrom({ ...logInFrom, UserMailId: e.target.value })}
+            validators={["required", "isEmail"]}
+            errorMessages={["this field is required", "email is not valid"]}
           />
-          <TextField
+          <br />
+          <TextValidator
             variant="outlined"
-            margin="normal"
-            required
             fullWidth
             name="password"
             label="Password"
             type="password"
-            id="password"
             autoComplete="current-password"
             value={logInFrom.UserPassword}
-            onChange={(e) =>
-              setLoIinFrom({ ...logInFrom, UserPassword: e.target.value })
-            }
+            onChange={(e) => setLoIinFrom({ ...logInFrom, UserPassword: e.target.value }) }
+            validators={["required"]}
+            errorMessages={["this field is required"]}
           />
           <Button
             type="submit"
@@ -84,7 +77,7 @@ const LoginFrom = () => {
           >
             Sign In
           </Button>
-        </form>
+        </ValidatorForm>
       </div>
     </Container>
   );

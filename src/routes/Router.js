@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Login from "../componentss/login/Login";
-import Profile from "../componentss/profile/Profile";
+import Login from "../components/login/Login";
+import Profile from "../components/profile/Profile";
 
 const Router = () => {
   return (

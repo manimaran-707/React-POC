@@ -28,4 +28,20 @@
   color: #fff;
   text-decoration: none;
 }
+
+.ProfileSection {
+  margin-top: 20px;
+}
+
+.ProfileSection form {
+  max-width: 500px;
+  margin: 20px auto;
+  -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.ProfileSection form .ProfileFromGroup {
+  text-align: center;
+}
 /*# sourceMappingURL=style.css.map */

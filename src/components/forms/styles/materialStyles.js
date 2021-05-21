@@ -18,3 +18,19 @@ export const LoginStyle = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+export const ProfileStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  large: {
+    width: theme.spacing(24),
+    height: theme.spacing(24),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));

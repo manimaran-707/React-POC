@@ -1,11 +1,9 @@
 // This is Action of the Reducer
-export const SignUp = (UserMailId, UserPassword) => {
+import axios from "axios";
+export const SignUp = (user) => {
   return {
-    type: "SIGN_UP",
-    payload: {
-      mailid: UserMailId,
-      password: UserPassword,
-    },
+    type: "LOG_IN",
+    payload: user,
   };
 };
 export const SignOut = () => {
@@ -13,3 +11,11 @@ export const SignOut = () => {
     type: "SIGN_OUT",
   };
 };
+
+export const fetchUsers = (user) =>{
+  return (dispatch) => {
+    axios.post("https://cdec7c609e99.ngrok.io/login", user)
+    .then(res => dispatch(SignUp(res.data)))
+    .catch(err => console.log("err",err))
+  }
+}
