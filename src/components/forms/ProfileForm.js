@@ -1,34 +1,44 @@
 import {
-  Button, TextField, FormLabel, FormControl, Radio, RadioGroup, FormControlLabel,
+  Button, TextField, FormLabel, FormControl, Radio, RadioGroup, FormControlLabel,Typography
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { ProfileStyles } from "./styles/materialStyles";
-import ProfileImg from "./ProfileImg";
 import {useSelector, useDispatch} from 'react-redux'
 import { useHistory } from "react-router";
-import {updateUsers} from "../../redux/actions";
-
+import {updateUser} from "../../redux/actions";
+import UpdateSuccess from "./updateSuccess";
+const formDatas ={
+  email: "",
+  firstName: "",
+  lastName: "",
+  dob: "",
+  gender: "",
+  address: ""
+}
 const ProfileFrom = () => {
   const classes = ProfileStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const userData = useSelector(state => state.Logged.user)
-  const isUpdated = useSelector(state => state.Logged.isUpdated)
-  const [formData, setformData] = React.useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    dob: "",
-    gender: "",
-    address: ""
-  });
+  const [isUpdated, setIsUpdated] = React.useState(false)
+  const [isGender, setIsGender] = React.useState(false);
+  const [formData, setformData] = React.useState(formDatas);
 
-  const handleSubmit = async () => {
-    console.log(userData.data._id )
-    console.log("userData", userData.token)
-    await dispatch(updateUsers(userData.data._id ,formData, userData.token))
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(formData.gender == "" ){
+      setIsGender(true)
+    }else{      
+      await dispatch(updateUser(userData.data._id ,formData, userData.token))
+      setIsUpdated(true)
+    }
   };
+
+  const backToLogin = () =>{
+    setIsUpdated(false)
+    history.push("/")
+  }
 
   useEffect(()=>{
     if(userData.success === true){
@@ -45,11 +55,14 @@ const ProfileFrom = () => {
 
   return (
     <div className="ProfileSection">
-        <ValidatorForm onSubmit={handleSubmit}>
-        <ProfileImg formData={formData} setformData={setformData} />
+      {isUpdated ? <UpdateSuccess backToLogin={backToLogin} /> : (
+        <ValidatorForm onSubmit={(e) => handleSubmit(e)}>
+        <Typography component="h1" className="ProfileTitle" variant="h6">  
+          User Profile
+        </Typography>
         <TextValidator
           variant="outlined"
-          label="Email"
+          label="Email *"
           fullWidth
           onChange={(e) => setformData({ ...formData, email: e.target.value })}
           name="email"
@@ -61,7 +74,7 @@ const ProfileFrom = () => {
         <br />
         <TextValidator
           variant="outlined"
-          label="First Name"
+          label="First Name *"
           fullWidth
           onChange={(e) =>setformData({ ...formData, firstName: e.target.value })}
           name="firstname"
@@ -72,7 +85,7 @@ const ProfileFrom = () => {
         <br />
         <TextValidator
           variant="outlined"
-          label="Last Name"
+          label="Last Name *"
           fullWidth
           onChange={(e) =>setformData({ ...formData, lastName: e.target.value })}
           name="lastname"
@@ -81,7 +94,7 @@ const ProfileFrom = () => {
           errorMessages={["this field is required"]}
         />
         <br />
-        <FormLabel component="legend">DOB</FormLabel>
+        <FormLabel component="legend">DOB *</FormLabel>
         <TextField
           variant="outlined"
           margin="normal"
@@ -97,26 +110,28 @@ const ProfileFrom = () => {
         />
         <br />
         <FormControl component="fieldset">
-          <FormLabel component="legend">Gender</FormLabel>
+          <FormLabel component="legend">Gender * </FormLabel>
           <RadioGroup
             row
             aria-label="gender"
             aria-required
             name="row-radio-buttons-group"
-            onChange={(e) =>setformData({ ...formData, gender: e.target.value })}
+            value={formData.gender}
+            onChange={(e) =>{ setIsGender(false); setformData({ ...formData, gender: e.target.value })}}
           >
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel value="Male" control={<Radio />} label="Male" />
             <FormControlLabel
-              value="female"
+              value="Female"
               control={<Radio />}
               label="Female"
             />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
           </RadioGroup>
+          {isGender && <Typography component="legend" className="genderReq">this field is required <br /></Typography>}  
         </FormControl>
+
         <TextValidator
           variant="outlined"
-          label="Address"
+          label="Address *"
           fullWidth
           rows={4}
           multiLine
@@ -133,9 +148,10 @@ const ProfileFrom = () => {
           color="primary"
           className={classes.submit}
         >
-          Sign In
+          Submit
         </Button>
       </ValidatorForm>
+      )}
     </div>
   );
 };

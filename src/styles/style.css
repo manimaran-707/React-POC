@@ -45,6 +45,11 @@
   text-align: center;
 }
 
+.ProfileSection form .ProfileTitle {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .ProfileSection .updatedsuc {
   height: 100vh;
   text-align: center;
@@ -65,5 +70,9 @@
 
 .ProfileSection .updatedsuc .div {
   margin-bottom: 20px;
+}
+
+.genderReq {
+  color: red;
 }
 /*# sourceMappingURL=style.css.map */

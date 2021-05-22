@@ -3,7 +3,7 @@ import LoginForm from "../forms/LoginForm";
 
 const Login = () => {
   return (
-    <div>
+    <div data-testid="login">
       <LoginForm />
     </div>
   );

@@ -8,6 +8,10 @@
     .ProfileFromGroup {
       text-align: center;
     }
+    .ProfileTitle{
+      margin-bottom: 20px;
+      text-align: center;
+    }
   }
   .updatedsuc{
     height: 100vh;
@@ -20,4 +24,8 @@
       margin-bottom: 20px;
     }
   }
+}
+
+.genderReq{
+  color: red;
 }

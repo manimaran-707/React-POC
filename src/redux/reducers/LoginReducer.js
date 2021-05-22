@@ -2,6 +2,7 @@
 const initialState = {
   isLogin: false,
   user: {},
+  updateUser: {},
   errorMessage: "",
 };
 const isLogged = (state = initialState, action) => {
@@ -15,7 +16,7 @@ const isLogged = (state = initialState, action) => {
     case "UPDATE_USER":
       return {
         ...state,
-        user: action.payload,
+        updateUser: action.payload,
       };
     default:
       return state;

@@ -15,23 +15,28 @@ export const updateUsers = (data) => {
 
 export const fetchUsers = (user) =>{
   return async (dispatch) => {
-    await axios.post("https://cdec7c609e99.ngrok.io/login", user)
+    await axios.post("http://e5260ad8c5c5.ngrok.io/login", user)
     .then(res => {dispatch(SignUp(res.data))})
     .catch(err => console.log("err",err))
   }
 }
 
-export const updateUser = (id, user, token) =>{
+export const updateUser = (id, data, token) =>{
   return async (dispatch) => {
-    await axios.put(`https://cdec7c609e99.ngrok.io/user/${id}`, user,{
-      headers: {
-        "Content-Type": "application/json",
-        "token": token
-      },
-    })
+    console.log("user", data)
+    console.log("id", id)
+    console.log(`Bearer ${token}`)
+    const header = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    };
+    await axios.put(`http://e5260ad8c5c5.ngrok.io/user/${id}` , data, {
+      headers: header
+    },
+    )
     .then(res => {
       console.log(res)
       dispatch(updateUsers(res))})
-    .catch(err => console.log("err",err))
+    .catch(err => console.log("err",err.message))
   }
 }

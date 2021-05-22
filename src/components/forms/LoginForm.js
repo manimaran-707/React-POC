@@ -9,10 +9,10 @@ import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {fetchUsers} from "../../redux/actions";
 
 const LoginFrom = () => {
+  const [userPassword, setusePassword] = useState("");
   const [logInFrom, setLogInFrom] = useState({
     email: "",
     password: "Admin",
-    userPassword: ""
   });
   const classes = LoginStyle();
   const dispatch = useDispatch();
@@ -20,7 +20,6 @@ const LoginFrom = () => {
 
   const FormHandler = async (e) => {
     e.preventDefault();
-    console.log(logInFrom);
     await dispatch(fetchUsers(logInFrom));
     history.push("profile");
   };
@@ -57,8 +56,8 @@ const LoginFrom = () => {
             name="password"
             label="Password"
             type="password"
-            value={logInFrom.userPassword}
-            onChange={(e) => setLogInFrom({ ...logInFrom, userPassword: e.target.value })}
+            value={userPassword}
+            onChange={(e) => setusePassword(e.target.value)}
             autoComplete="current-password"
             validators={["required"]}
             errorMessages={["this field is required"]}
